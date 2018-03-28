@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+  <title>CHAT com Socket IO</title>
+</head>
+
+<body></body>
+
+  <div id='msgs'></div>
+  <input type="text">
+
+  <script src='/socket.io/socket.io.js'></script>
+  <script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
+  <script>
+
+    const socket = io()
+    socket.on('connect', function() {
+      $('#msgs').append('Conectado com o id: ' + socket.id + '<br>')
+      socket.emit('msg', 'Conectado com ' + socket.id)
+    })
+    socket.on('msg', function(msg) {
+      $("#msgs").append(msg + '<br>')
+    })
+    $(function() {
+      $("input").keydown(function(key) {
+        if (key.keyCode === 13) {
+          socket.emit('msg', $(this).val());
+        }
+      })
+    })
+  </script>
+</body>
+
+</html>
